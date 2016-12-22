@@ -4,8 +4,8 @@
 #  Python API
 #  This library is used for the MRPi1 robot.
 #  http://www.macerobotics.com
-#  Date : 04/08/2016
-#  Version : 0.22
+#  Date : 22/12/2016
+#  Version : 0.23
 #
 #  MIT Licence
 
@@ -55,7 +55,7 @@ __all__ = ['playWav']
 __all__ = ['playMp3']
 __all__ = ['playTxt']
 __all__ = ['play']
-__all__ = ['robotGo']
+#__all__ = ['robotGo']
 __all__ = ['writeCommand']
 __all__ = ['readData']
 
@@ -77,9 +77,7 @@ def led(led, on_off):
         led on or off
         
         parameter 1 : led number (1 to 3)
-
         parameter 2 : led state (on = 1, off = 0)
-
         Exemple, led 2 on:
         >> led(2,1)
   """
@@ -101,7 +99,6 @@ def ledToggle(led):
         toggle led
         
         parameter : led number (1 to 3)
-
         Exemple:
         >> ledToggle(2)
   """
@@ -116,7 +113,6 @@ def ledToggle(led):
 def firmwareVersion():
   """
         Read the firmware version (microcontroller)
-
         Exemple:
         >> firmwareVersion()
   """
@@ -134,9 +130,7 @@ def firmwareVersion():
 def switch():
   """
         Read the switch state
-
         return switch()
-
         Exemple:
         >> switch()
   """
@@ -154,9 +148,7 @@ def switch():
 def battery():
   """
         Read battery tension
-
         return tension (volt)
-
         Exemple:
         >> battery()
   """
@@ -171,9 +163,7 @@ def battery():
 def temperature():
   """
         Read temperature
-
         return temperature (degree)
-
         Exemple:
         >> temperature()
   """
@@ -188,7 +178,6 @@ def temperature():
 def groundSensor(sensor):
   """
         Read ground sensors (1 to 3)
-
         Exemple:
         >> groundSensor(1)
   """
@@ -208,11 +197,8 @@ def groundSensor(sensor):
 def ambiantLight(sensor):
   """
         Read ambiantLight
-
         parameter : 0 to 3
-
         return ambiantLight (0 to 4095)
-
         Exemple:
         >> ambiantLight(0)
   """
@@ -233,11 +219,8 @@ def ambiantLight(sensor):
 def proxSensor(sensor):
   """
         Read proximity sensor
-
         parameter : 0 to 6
-
         return proximity sensor (0 to 4095)
-
         Exemple:
         >> proxSensor(2)
   """
@@ -256,30 +239,13 @@ def proxSensor(sensor):
 #---------------------------------------------------------------------
 #-------------[ MRPI1 move robot methods]------------
 
-
-# the robot move forward (speed :0 to 100 %)
 def forward(speed):
-  """
-        move forward mrpi1
-
-        parameter : 0 to 100
-
-        Exemple:
-        >> forward(20)
-  """
-  if speed > -1 and speed < 101:
-    speed = str(speed)
-    port.write("#MF,")
-    port.write(speed)
-    port.write("!")
-  else:
-    print("error speed value")
+  __forwardControl(speed, 9999)# distance infini (avance toujours)
 
 # control robot enable
 def controlEnable():
   """
         control robot enable
-
         Exemple:
         >> controlEnable()
   """
@@ -295,7 +261,6 @@ def controlEnable():
 def controlDisable():
   """
         control robot disable
-
         Exemple:
         >> controlDisable()
   """
@@ -309,7 +274,6 @@ def controlDisable():
 def forwardC(speed, distance):
   """
         move forward mrpi1 with control
-
         Exemple:
         >> forwardC(20, 4000)
   """
@@ -350,14 +314,12 @@ def forwardC(speed, distance):
 # the robot move forward with control (distance : millimeter)
 def forward_mm(speed, distance):
   forwardC(speed, distance*4)
-
+'''
 # the robot move back
 def back(speed):
   """
         move back mrpi1
-
         parameter : 0 to 100
-
         Exemple:
         >> forward(20)
   """
@@ -368,12 +330,14 @@ def back(speed):
     port.write("!")
   else:
     print("error speed value")
+'''
+def back(speed):
+  __backControl(speed, 9999)# distance infini (avance toujours)
   
 # the robot move back with control
 def backC(speed, distance):
   """
         move forward mrpi1 with control
-
         Exemple:
         >> backC(20, 4000)
   """
@@ -410,21 +374,20 @@ def back_mm(speed, distance):
 def stop():
   """
         stop the robot
-
         Exemple:
         >> stop()
   """
+  if control_robot == True :
+    controlDisable()
   writeCommand("STP")
-  
+'''  
 # the robot turn right
 def turnRight(speed):
   """
         turn right
-
         parameter : speed (0 to 100)
         max speed = 100
         min speed = 0
-
         Exemple:
         >> turnRight(30)
   """
@@ -435,19 +398,19 @@ def turnRight(speed):
     port.write("!")
   else:
     print("error speed value")
+'''
+def turnRight(speed):
+  __turnRightControl(speed,99999)
   
 # the robot turn right with control
 def turnRightC(speed, distance):
   """
         turn right with control
-
         parameter 1 : speed (0 to 100)
         max speed = 100
         min speed = 0
-
         parameter 2 : degree angle
         546 = 90 degree 
-
         Exemple:
         >> turnRightC(10, 546)
   """
@@ -479,16 +442,14 @@ def turnRightC(speed, distance):
 # the robot turn right with control 
 def turnRight_degree(speed, degree):
   turnRightC(speed, degree*546/90)
-
+'''
 # the robot turn left
 def turnLeft(speed):
   """
         turn left
-
         parameter : speed (0 to 100)
         max speed = 100
         min speed = 0
-
         Exemple:
         >> turnLeft(30)
   """
@@ -499,19 +460,19 @@ def turnLeft(speed):
     port.write("!")
   else:
     print("error speed value")
+'''
+def turnLeft(speed):
+  __turnLeftControl(speed, 99999)
   
 # the robot turn left with control
 def turnLeftC(speed, distance):
   """
         turn left with control
-
         parameter 1 : speed (0 to 100)
         max speed = 100
         min speed = 0
-
         parameter 2 : degree angle
         546 = 90 degree
-
         Exemple:
         >> turnLeftC(10, 546)
   """
@@ -547,11 +508,8 @@ def turnLeft_degree(speed, degree):
 def motorRight(direction, speed):
   """
         motor right control
-
         parameter 1 : direction (0 or 1)
-
         parameter 2 : speed ( 0 to 100)     
-
         Exemple:
         >> motorRigh(1, 50)
   """
@@ -567,11 +525,8 @@ def motorRight(direction, speed):
 def motorLeft(direction, speed):
   """
         motor left control
-
         parameter 1 : direction (0 or 1)
-
         parameter 2 : speed ( 0 to 100)     
-
         Exemple:
         >> motorLeft(1, 50)
   """
@@ -589,6 +544,7 @@ def motorLeft(direction, speed):
 # speed : speed of the robot (0 to 100)
 # cordX : Coordinate axe X (millimeter)
 # cordY : Coordinate axe Y (millimeter)
+'''
 def robotGo(speed, cordX, cordY):
 
   # 
@@ -622,14 +578,13 @@ def robotGo(speed, cordX, cordY):
   turnRight_degree(speed, angle)
   time.sleep(0.1)
   forward_mm(speed, hypotenuse)
+'''
   
 # read robot position axe X
 def robotPositionX():
   """
         Read robot position axe X
-
         return position (units : mm)
-
         Exemple:
         >> robotPositionX()
   """
@@ -645,9 +600,7 @@ def robotPositionX():
 def robotPositionY():
   """
         Read robot position axe Y
-
         return position (units : mm)
-
         Exemple:
         >> robotPositionY()
   """
@@ -666,7 +619,6 @@ def robotPositionY():
 def encoderLeft():
   """
         read the encoder left value  
-
         Exemple:
         >> encoderLeft()
   """
@@ -681,7 +633,6 @@ def encoderLeft():
 def encoderRight():
   """
         read the encoder right value  
-
         Exemple:
         >> encoderRight()
   """
@@ -699,7 +650,6 @@ def encoderRight():
 def irReceiver():
   """
         Read infrared receiver
-
         Exemple:
         >> irReceiver()
   """
@@ -747,7 +697,6 @@ def acceleroZ():
 def playWav(file_wav):
   """
         play wav audio file 
-
         Exemple:
         >> playWav("hello.wav")
   """
@@ -760,7 +709,6 @@ def playWav(file_wav):
 def playMp3(file_mp3):
   """
         play mp3 audio file 
-
         Exemple:
         >> playMp3("hello.wav")
   """
@@ -773,7 +721,6 @@ def playMp3(file_mp3):
 def playTxt(file_txt):
   """
         play text file 
-
         Exemple:
         >> playTxt("hello.txt")
   """
@@ -787,7 +734,6 @@ def playTxt(file_txt):
 def play(text):
   """
         play text
-
         Exemple:
         >> play("hello my name is MRPi1")
   """
@@ -803,7 +749,6 @@ def play(text):
 def serial2Write(data):
   """
         serial 2 write 
-
         Exemple:
         >> serial2Write("HELLO")
   """
@@ -863,7 +808,93 @@ def __convListToFloat(liste):
     i = i + 1
   return(float(a))
   
+# the robot move forward with control (pas d'attente de la fin du trapeze)
+def __forwardControl(speed, distance):
+  """
+        move forward mrpi1 with control
+  """
+  controlEnable()
+
+  if control_robot == True:
+    print "Forward with control enable"
+    distance = int(distance)
+    speed = str(speed)
+    distance = str(distance)
+    port.write("#MFC,")
+    port.write(distance)
+    port.write(",")
+    port.write(speed)
+    port.write("!")
+    port.flushInput() # reset serial receive buffer
+  else:
+    print "error : control robot disable"
   
+# the robot move forward with control (pas d'attente de la fin du trapeze)
+def __backControl(speed, distance):
+  """
+        move forward mrpi1 with control
+  """
+  controlEnable()
+
+  if control_robot == True:
+    print "Forward with control enable"
+    distance = int(distance)
+    speed = str(speed)
+    distance = str(distance)
+    port.write("#MBC,")
+    port.write(distance)
+    port.write(",")
+    port.write(speed)
+    port.write("!")
+    port.flushInput() # reset serial receive buffer
+  else:
+    print "error : control robot disable"
+
+	
+# the robot move forward with control (pas d'attente de la fin du trapeze)
+def __turnLeftControl(speed, angle):
+  """
+        move forward mrpi1 with control
+  """
+  controlEnable()
+
+  if control_robot == True:
+    print "Forward with control enable"
+    angle = int(angle)
+    speed = str(speed)
+    angle = str(angle)
+    port.write("#TLC,")
+    port.write(angle)
+    port.write(",")
+    port.write(speed)
+    port.write("!")
+    port.flushInput() # reset serial receive buffer
+  else:
+    print "error : control robot disable"
+
+
+# the robot move forward with control (pas d'attente de la fin du trapeze)
+def __turnRightControl(speed, angle):
+  """
+        move forward mrpi1 with control
+  """
+  controlEnable()
+
+  if control_robot == True:
+    print "Forward with control enable"
+    angle = int(angle)
+    speed = str(speed)
+    angle = str(angle)
+    port.write("#TRC,")
+    port.write(angle)
+    port.write(",")
+    port.write(speed)
+    port.write("!")
+    port.flushInput() # reset serial receive buffer
+  else:
+    print "error : control robot disable"
+
+
 # control robot (postion/orientation disable)
 control_robot = False
 controlDisable()
