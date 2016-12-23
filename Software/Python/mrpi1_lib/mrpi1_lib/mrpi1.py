@@ -45,6 +45,8 @@ __all__ = ['forward_mm']
 __all__ = ['back_mm']
 __all__ = ['motorRight']
 __all__ = ['motorLeft']
+__all__ = ['robotPositionX']
+__all__ = ['robotPositionY']
 __all__ = ['encoderLeft']
 __all__ = ['encoderRight']
 __all__ = ['irReceiver']
@@ -240,7 +242,7 @@ def proxSensor(sensor):
 #-------------[ MRPI1 move robot methods]------------
 
 def forward(speed):
-  __forwardControl(speed, 9999)# distance infini (avance toujours)
+  __forwardControl(speed, 99999)# distance infini (avance toujours)
 
 # control robot enable
 def controlEnable():
@@ -332,7 +334,7 @@ def back(speed):
     print("error speed value")
 '''
 def back(speed):
-  __backControl(speed, 9999)# distance infini (avance toujours)
+  __backControl(speed, 99999)# distance infini (avance toujours)
   
 # the robot move back with control
 def backC(speed, distance):
@@ -593,7 +595,8 @@ def robotPositionX():
   port.flushInput() # reset serial receive buffer
   writeCommand("POX")
   value = readData()
-  return __convListToFloat(value/4) 
+  value = __convListToFloat(value) 
+  return (value/4) 
   
   
 # read robot position axe Y
@@ -609,7 +612,8 @@ def robotPositionY():
   port.flushInput() # reset serial receive buffer
   writeCommand("POY")
   value = readData()
-  return __convListToFloat(value/4) 
+  value = __convListToFloat(value) 
+  return (value/4) 
   
 
 #---------------------------------------------------------------------
