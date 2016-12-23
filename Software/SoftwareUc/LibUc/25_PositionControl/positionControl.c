@@ -3,7 +3,7 @@
   * @file    positionControl.c
   * @author  Mace Robotics (www.macerobotics.com)
   * @version V1.0
-  * @date    30/12/2015
+  * @date    05/08/2016
   * @brief   Position control
   *
   * 
@@ -34,11 +34,9 @@ float encoderLeft, encoderRight;
 float deltaDistance;
 
 
-
   //Read encoder
   encoderLeft = -encodeurLeft();
   encoderRight = -encodeurRight();
-
 
 
   // step distance calcul
@@ -55,7 +53,9 @@ float deltaDistance;
   postionRobot.stepOrientation = encoderRight - encoderLeft;
 
   // radian orientation calculator
-  postionRobot.radOrientation = postionRobot.stepOrientation * (float)(0.00032);
+  // (pi/2)/546 = 0.0028769
+  // 546 = 90° en ticks
+  postionRobot.radOrientation = postionRobot.stepOrientation * (float)(0.0028769);
 
   // delat X and Y position robot calculator
   deltaX = (float)(deltaDistance*cos(postionRobot.radOrientation));
@@ -98,9 +98,14 @@ int32_t positionControl_stepSpeedDistance(void)
  * @param  None
  * @retval None
 **********************************************************/
+float positionControl_Orientation(void)
+{
+  return(postionRobot.radOrientation);
+}
+
 int32_t positionControl_stepOrientation(void)
 {
-  return((int32_t)(postionRobot.stepOrientation));
+	  return((int32_t)(postionRobot.stepOrientation));
 }
 
 
@@ -112,6 +117,28 @@ int32_t positionControl_stepOrientation(void)
 int32_t positionControl_stepSpeedOrientation(void)
 {
   return((int32_t)(postionRobot.stepSpeed_orientation));
+}
+
+
+/**********************************************************
+ * @brief  positionControl_stepX
+ * @param  None
+ * @retval None
+**********************************************************/
+float positionControl_stepX(void)
+{
+  return(postionRobot.Xrobot);
+}
+
+
+/**********************************************************
+ * @brief  positionControl_stepX
+ * @param  None
+ * @retval None
+**********************************************************/
+float positionControl_stepY(void)
+{
+  return(postionRobot.Yrobot);
 }
 
 
@@ -140,6 +167,15 @@ static int32_t old_wheelLeftDistance;
   // Speed robot (orientation)
   postionRobot.stepSpeed_orientation = speedWheelRight - speedWheelLeft;
 
+}
+
+void positionControl_Reset(void)
+{
+	/*postionRobot.stepDistance = 0;
+	//postionRobot.old_stepDistance = 0;
+	postionRobot.stepOrientation = 0;
+	postionRobot.stepSpeed_distance = 0;
+	postionRobot.stepSpeed_orientation = 0;*/
 }
 
  // End Of file

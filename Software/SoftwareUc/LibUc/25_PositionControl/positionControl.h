@@ -46,8 +46,15 @@ int32_t positionControl_stepDistance(void);
 int32_t positionControl_stepSpeedDistance(void);
 
 int32_t positionControl_stepOrientation(void);
-int32_t positionControl_stepOrientation(void);
+
+float positionControl_Orientation(void);
 int32_t positionControl_stepSpeedOrientation(void);
+
+
+float positionControl_stepX(void);
+float positionControl_stepY(void);
+
+void positionControl_Reset(void);
 
  #endif
 // End Of File

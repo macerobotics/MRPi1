@@ -71,6 +71,8 @@ bool result = false;
 	  trapezoid->time1 = 0.0;
 	  trapezoid->time2 = 0.0;
 	  trapezoid->time3 = 0.0;
+	  //trapezoid->out_trapezoid = 0;
+	  //trapezoid->distance_out = 0;
 
 	  trapezoidGenerator_calcul(trapezoid);
 
@@ -193,8 +195,23 @@ float out_trapezoid=0;
        }// end constant phase
     }// end acceleration speed
 
-    trapezoid->time_trapezoid++;
+      trapezoid->time_trapezoid++;
+
+
+      // output trapezoid
+     /* trapezoid->out_trapezoid = out_trapezoid;
+
+      if(trapezoid->type == POSITIF_TRAPEZOID)
+      {
+    	  trapezoid->distance_out += trapezoid->out_trapezoid;
+      }
+      else
+      {
+    	  trapezoid->distance_out -= trapezoid->out_trapezoid;
+      }*/
+
   }
+
 
   // output trapezoid
   trapezoid->out_trapezoid = out_trapezoid;
@@ -325,6 +342,8 @@ void trapezoidGenerator_reset(void)
 {
   trapezoid_distance.distance_out = 0;
   trapezoid_orientation.distance_out = 0;
+  trapezoid_distance.state = END_STATE;
+  trapezoid_orientation.state = END_STATE;
 }
 
 
